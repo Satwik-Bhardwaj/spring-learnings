@@ -1,0 +1,17 @@
+package com.learnings.springcore;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+//@SpringBootApplication(
+//		scanBasePackages = {"com.newPackage.testComponents",
+//				"com.learnings.springcore"})
+
+@SpringBootApplication
+public class SpringcoreApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringcoreApplication.class, args);
+	}
+
+}
