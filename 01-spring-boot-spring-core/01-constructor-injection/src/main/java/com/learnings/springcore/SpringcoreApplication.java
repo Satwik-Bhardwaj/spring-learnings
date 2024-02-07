@@ -3,10 +3,11 @@ package com.learnings.springcore;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(
-		scanBasePackages = {"com.learnings.additionalPackages",
-		"com.learnings.springcore"}
-)
+//@SpringBootApplication(
+//		scanBasePackages = {"com.learnings.additionalPackages",
+//		"com.learnings.springcore"}
+//)
+@SpringBootApplication
 public class SpringcoreApplication {
 
 	public static void main(String[] args) {
