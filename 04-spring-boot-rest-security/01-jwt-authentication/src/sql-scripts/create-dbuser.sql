@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS dbuser;
+
+USE dbuser;
+
+CREATE TABLE IF NOT EXISTS User (
+    username VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255)
+);
