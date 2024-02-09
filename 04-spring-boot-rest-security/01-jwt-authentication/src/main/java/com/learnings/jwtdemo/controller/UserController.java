@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class UserController {
     // validate user and generate token(login)
     @PostMapping("/login")
     public ResponseEntity<UserResponse> loginUser(@RequestBody UserRequest userRequest) {
-        // TODO : validate u/pwd database
+        // validate un/pwd database
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 userRequest.getUsername(), userRequest.getPassword()
         ));
@@ -45,6 +46,12 @@ public class UserController {
         String token = util.generateToken(userRequest.getUsername());
         return ResponseEntity.ok(new UserResponse(token, "Success! Token Generated."));
 
+    }
+
+    // after login only
+    @GetMapping("/welcome")
+    public ResponseEntity<String> accessData(Principal principal) {
+        return ResponseEntity.ok("Hello User! " + principal.getName());
     }
 
     // get the list of all the user

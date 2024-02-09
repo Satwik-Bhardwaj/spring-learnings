@@ -1,5 +1,6 @@
 package com.learnings.jwtdemo.config;
 
+import com.learnings.jwtdemo.filter.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -21,6 +23,8 @@ public class SecurityConfig {
     @Autowired
     protected BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SecurityFilter securityFilter;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -36,10 +40,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 // TODO : add exception handling
                 // TODO : add session management - session policy stateless
-                // TODO : verify user for 2nd request onwards..
-
 
         );
+        // register filter for 2nd request onwards
+        http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         // use HTTP Basic authentication
         http.httpBasic(Customizer.withDefaults());
