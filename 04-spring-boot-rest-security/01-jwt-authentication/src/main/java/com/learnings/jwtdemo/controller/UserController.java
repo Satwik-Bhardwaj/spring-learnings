@@ -8,6 +8,8 @@ import com.learnings.jwtdemo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,9 @@ public class UserController {
     @Autowired
     private JwtUtil util;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     // save user in database
     @PostMapping("/save")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
@@ -33,6 +38,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserResponse> loginUser(@RequestBody UserRequest userRequest) {
         // TODO : validate u/pwd database
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                userRequest.getUsername(), userRequest.getPassword()
+        ));
+
         String token = util.generateToken(userRequest.getUsername());
         return ResponseEntity.ok(new UserResponse(token, "Success! Token Generated."));
 
