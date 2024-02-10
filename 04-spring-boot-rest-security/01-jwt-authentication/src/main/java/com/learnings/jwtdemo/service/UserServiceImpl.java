@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 user.getRoles().stream()
                         .map(role->new SimpleGrantedAuthority(role))
                         .collect(Collectors.toList())
+                // TODO: check here is the lazy initialization exception occurring
         );
 
     }
