@@ -40,7 +40,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .anyRequest().authenticated()
                 // TODO : add exception handling
-                // TODO : add session management - session policy stateless
 
         );
         // register filter for 2nd request onwards
