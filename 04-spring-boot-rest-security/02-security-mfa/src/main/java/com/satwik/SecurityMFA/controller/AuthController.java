@@ -5,9 +5,11 @@ import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.satwik.SecurityMFA.dto.TokenRequest;
+import com.satwik.SecurityMFA.service.MsalValidationService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,17 +26,21 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @Autowired
+    MsalValidationService msalValidationService;
+
     @PostMapping("/validate")
     public String validateToken(@RequestBody TokenRequest tokenReq) {
         System.out.println(tokenReq.getToken());
 
-        System.out.println(extractAllClaims(tokenReq.getToken()).getSubject());
+        Claims claims = msalValidationService.decodeAndVerifyToken(tokenReq.getToken());
+        System.out.println(claims.getSubject());
 
-        return tokenReq.getToken();
+        return claims.getSubject();
 
     }
 
-    private Claims extractAllClaims(String token) {
+    /*private Claims extractAllClaims(String token) {
         URL jwksUrl;
         JWKSet publicKeys;
         try {
@@ -77,6 +83,6 @@ public class AuthController {
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse JWT token", e);
         }
-    }
+    }*/
 
 }
