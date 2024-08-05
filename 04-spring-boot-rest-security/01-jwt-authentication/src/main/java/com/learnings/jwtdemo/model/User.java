@@ -17,7 +17,7 @@ public class User{
     @Column(name = "password")
     private String password;
 
-    @ElementCollection  // check it
+    @ElementCollection(fetch = FetchType.EAGER)  // check it
     @CollectionTable(   // check it
             name = "role",
             joinColumns = @JoinColumn(name = "username")
